@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ProductList from './components/ProductList'; // Tendremos que modificar este un poco
+import ProductList from './components/ProductList';
 import Cart from './components/Cart';
 import './App.css';
 
@@ -7,20 +7,18 @@ import './App.css';
 const API_URL = 'http://localhost:5000/api';
 
 function App() {
-  // --- ESTADOS DE USUARIO ---
-  const [user, setUser] = useState(null); // null = no logueado, {username, role} = logueado
-  const [isRegistering, setIsRegistering] = useState(false); // Para alternar entre Login y Registro
+  // Estados de usuario
+  const [user, setUser] = useState(null); // null = no logueado
+  const [isRegistering, setIsRegistering] = useState(false); 
   const [authInput, setAuthInput] = useState({ username: '', password: '' });
 
-  // --- ESTADOS DE LA TIENDA ---
+  // Estados de la tienda
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
-
-  // --- ESTADO PARA AGREGAR PRODUCTO (SOLO ADMIN) ---
   const [newProduct, setNewProduct] = useState({ name: '', price: '', category: 'Videojuego', imageUrl: '', stock:10  });
 
 
@@ -47,13 +45,13 @@ const handlePurchase = () => {
         alert("Error: " + data.error);
       } else {
         alert(data.message);
-        setCartItems([]); // Vaciamos el carrito visualmente
-        fetchProducts();  // Recargamos los productos para ver el nuevo stock
+        setCartItems([]);
+        fetchProducts();  
       }
     });
   };
 
-  // --- (NUEVO) FUNCIÓN PARA ACTUALIZAR STOCK (ADMIN) ---
+  // Actualizar stock 
   const handleUpdateStock = (id, newStock) => {
     fetch(`${API_URL}/productos/${id}`, {
       method: 'PUT',
@@ -61,12 +59,11 @@ const handlePurchase = () => {
       body: JSON.stringify({ stock: newStock })
     })
     .then(() => {
-      fetchProducts(); // Recargar lista inmediatamente
+      fetchProducts(); 
     });
   };
 
 
-  // --- FUNCIONES DE AUTH ---
   const handleLogin = () => {
     const endpoint = isRegistering ? '/register' : '/login';
     fetch(`${API_URL}${endpoint}`, {
@@ -89,7 +86,7 @@ const handlePurchase = () => {
     setCartItems([]);
   };
 
-  // --- FUNCIONES DE ADMIN ---
+  // funciones de aministrador 
   const handleDeleteProduct = (id) => {
     if (window.confirm("¿Seguro que quieres eliminar este producto?")) {
       fetch(`${API_URL}/productos/${id}`, { method: 'DELETE' })
@@ -103,17 +100,17 @@ const handlePurchase = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...newProduct,
-        price: parseFloat(newProduct.price) // Asegurar que el precio sea número
+        price: parseFloat(newProduct.price) 
       })
     })
     .then(() => {
       fetchProducts(); // Recargar lista
-      setNewProduct({ name: '', price: '', category: 'Videojuego', imageUrl: '' }); // Limpiar form
+      setNewProduct({ name: '', price: '', category: 'Videojuego', imageUrl: '' }); 
       alert("Producto agregado");
     });
   };
 
-  // --- LÓGICA DE FILTRADO Y PAGINACIÓN ---
+  // Flitrado
   const filteredProducts = products.filter(product => {
     const matchesCategory = (categoryFilter === 'Todos') || (product.category === categoryFilter);
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -127,7 +124,7 @@ const handlePurchase = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
-  // --- VISTA: LOGIN / REGISTRO ---
+  // --- VISTA: LOGIN
   if (!user) {
     return (
       <div className="login-container" style={{textAlign: 'center', marginTop: '50px'}}>
@@ -169,7 +166,7 @@ const handlePurchase = () => {
       <main className="container">
         <div className="main-content">
           
-          {/* --- PANEL DE ADMIN (SOLO VISIBLE SI ES ADMIN) --- */}
+          {/*PANEL DE ADMIN*/}
           {user.role === 'admin' && (
             <div className="admin-panel" style={{background: '#f0f0f0', padding: '15px', marginBottom: '20px', borderRadius: '8px', border: '2px solid #333'}}>
               <h3>🛠️ Panel de Administrador: Agregar Producto</h3>

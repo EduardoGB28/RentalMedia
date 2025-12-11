@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from pymongo import MongoClient
-from bson import ObjectId # Para manejar el _id de Mongo
+from bson import ObjectId 
 
-# --- Configuración Inicial ---
+# Configuracion Inicial
 app = Flask(__name__)
-# Aplica CORS para permitir peticiones desde tu frontend de React
+# Aplica CORS para permitir peticiones desde el frontend de React
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 # --- Conexión a la Base de Datos ---
@@ -18,19 +18,16 @@ try:
 except Exception as e:
     print(f"Error conectando a MongoDB: {e}")
 
-# --- Helper para convertir el _id de Mongo ---
-# MongoDB usa un objeto 'ObjectId' para el _id, que no es compatible con JSON.
-# Necesitamos convertirlo a un string simple.
+
 def convert_document(doc):
     doc['_id'] = str(doc['_id'])
     return doc
 
-# --- Definición de la Ruta (Endpoint) ---
+#Definicion de la Ruta
 @app.route("/api/productos", methods=['GET'])
 def get_products():
     try:
         products = []
-        # .find() trae todos los documentos de la colección
         for doc in products_collection.find():
             products.append(convert_document(doc))
         
@@ -90,9 +87,9 @@ def buy_products():
         
     return jsonify({"message": "¡Compra realizada con éxito!"}), 200
 
-# --- RUTAS DE USUARIOS (AUTH) ---
 
-# (NUEVO) Login
+
+# Login
 @app.route("/api/login", methods=['POST'])
 def login():
     data = request.json
@@ -111,7 +108,7 @@ def login():
     else:
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
-# (NUEVO) Registro
+#Registro
 @app.route("/api/register", methods=['POST'])
 def register():
     data = request.json
@@ -132,5 +129,4 @@ def register():
     return jsonify({"message": "Usuario creado exitosamente", "role": "user"}), 201
 
 if __name__ == "__main__":
-    # Desactivamos el debug y el reiniciador para evitar el bug de Windows
     app.run(port=5000, debug=False, use_reloader=False)

@@ -1,10 +1,9 @@
-// Esta es la URL de tu backend de Python (Flask)
 const API_URL = 'http://localhost:5000/api/productos';
 
 export const fetchProducts = () => {
   console.log("Contactando al backend real en Python...");
   
-  // fetch hace una llamada HTTP real a tu servidor Flask
+  // fetch hace una llamada HTTP real al servidor Flask
   return fetch(API_URL) 
     .then(response => {
       // Manejo de errores de red o del servidor
@@ -19,7 +18,6 @@ export const fetchProducts = () => {
     })
     .catch(error => {
       console.error("¡Error al conectar con el backend real!", error);
-      // Devuelve un array vacío en caso de error para que la app no se rompa
       return []; 
     });
 };

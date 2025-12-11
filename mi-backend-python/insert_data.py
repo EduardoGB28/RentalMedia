@@ -250,7 +250,7 @@ mock_data = [
   { "name": "Rose of Versailles", "category": "Anime", "price": 19.99, "imageUrl": "/images/rose-of-versailles.jpg" },
   { "name": "Slam Dunk", "category": "Anime", "price": 19.99, "imageUrl": "/images/slam-dunk.jpg" },
   { "name": "Rurouni Kenshin", "category": "Anime", "price": 19.99, "imageUrl": "/images/rurouni-kenshin.jpg" },
-  { "name": "Inuyasha", "category": "Anime", "price": 24.99, "imageUrl": "/images/inuyasha.jpg" },
+  { "name": "Inuyasha", "category": "Anime", "price": 24.99, "imageUrl": "/images/inuyasha.jpg" }, #fin
   { "name": "Digimon Adventure", "category": "Anime", "price": 19.99, "imageUrl": "/images/digimon-adventure.jpg" },
   { "name": "Pokémon (Indigo League)", "category": "Anime", "price": 19.99, "imageUrl": "/images/pokemon-anime.jpg" },
   { "name": "Yu-Gi-Oh! Duel Monsters", "category": "Anime", "price": 19.99, "imageUrl": "/images/yugioh.jpg" },

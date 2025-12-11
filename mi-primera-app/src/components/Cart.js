@@ -19,7 +19,7 @@ function Cart({ cartItems, onPurchase }) { // Recibimos onPurchase
           </ul>
           <h3>Total: ${total.toFixed(2)}</h3>
           
-          {/* --- BOTÓN NUEVO --- */}
+          
           <button 
             onClick={onPurchase}
             style={{width: '100%', padding: '10px', background: '#28a745', color: 'white', border: 'none', cursor: 'pointer', fontSize: '16px', borderRadius: '5px'}}

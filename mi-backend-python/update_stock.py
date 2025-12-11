@@ -8,7 +8,7 @@ collection = db["Persona"]
 
 
 
-# Actualiza TODOS los productos agregando el campo "stock" con valor 10
+# Actualiza todos los productos agregando el campo "stock" con valor 10
 result = collection.update_many({}, {"$set": {"stock": 10}})
 
 print(f"¡Listo! Se actualizó el stock en {result.modified_count} productos.")

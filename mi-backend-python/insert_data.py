@@ -118,10 +118,10 @@ mock_data = [
   { "name": "Luca", "category": "Pelicula", "price": 14.99, "imageUrl": "/images/luca.jpg" },
   { "name": "Turning Red", "category": "Pelicula", "price": 14.99, "imageUrl": "/images/turning-red.jpg" },
   { "name": "The Boy and the Heron", "category": "Pelicula", "price": 24.99, "imageUrl": "/images/boy-and-the-heron.jpg" },
-  { "name": "Suzume", "category": "Pelicula", "price": 21.99, "imageUrl": "/images/suzume.jpg" },
-  { "name": "Your Name", "category": "Pelicula", "price": 14.99, "imageUrl": "/images/your-name.jpg" },
+  { "name": "Suzume", "category": "Pelicula", "price": 21.99, "imageUrl": "/images/suzume.jpg" }, #checkpoint
+  { "name": "Your Name", "category": "Pelicula", "price": 14.99, "imageUrl": "/images/your-name.jpeg" },
   { "name": "Weathering With You", "category": "Pelicula", "price": 14.99, "imageUrl": "/images/weathering-with-you.jpg" },
-  { "name": "A Silent Voice", "category": "Pelicula", "price": 12.99, "imageUrl": "/images/a-silent-voice.jpg" },
+  { "name": "A Silent Voice", "category": "Pelicula", "price": 12.99, "imageUrl": "/images/a-silent-voice.jpeg" },# check
   { "name": "Marcel the Shell with Shoes On", "category": "Pelicula", "price": 16.99, "imageUrl": "/images/marcel-shell.jpg" },
   { "name": "Robot Dreams", "category": "Pelicula", "price": 18.99, "imageUrl": "/images/robot-dreams.jpg" },
   { "name": "Migration", "category": "Pelicula", "price": 19.99, "imageUrl": "/images/migration.jpg" },

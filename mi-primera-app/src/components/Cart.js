@@ -1,8 +1,6 @@
 import React from 'react';
 
-// Recibe los items del carrito
-function Cart({ cartItems }) {
-  // Calculamos el total
+function Cart({ cartItems, onPurchase }) { // Recibimos onPurchase
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
@@ -20,6 +18,14 @@ function Cart({ cartItems }) {
             ))}
           </ul>
           <h3>Total: ${total.toFixed(2)}</h3>
+          
+          {/* --- BOTÓN NUEVO --- */}
+          <button 
+            onClick={onPurchase}
+            style={{width: '100%', padding: '10px', background: '#28a745', color: 'white', border: 'none', cursor: 'pointer', fontSize: '16px', borderRadius: '5px'}}
+          >
+            Comprar Ahora
+          </button>
         </>
       )}
     </div>

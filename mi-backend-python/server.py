@@ -43,15 +43,52 @@ def get_products():
 @app.route("/api/productos", methods=['POST'])
 def add_product():
     data = request.json
-    # Insertamos el nuevo producto
+    if 'stock' not in data:
+        data['stock'] = 10
+    else:
+        data['stock'] = int(data['stock'])
+        
     result = products_collection.insert_one(data)
     return jsonify({"message": "Producto agregado", "id": str(result.inserted_id)}), 201
 
-# (NUEVO) Eliminar Producto
+# Eliminar Producto
 @app.route("/api/productos/<id>", methods=['DELETE'])
 def delete_product(id):
     products_collection.delete_one({'_id': ObjectId(id)})
     return jsonify({"message": "Producto eliminado"}), 200
+
+#Actualizar stock
+@app.route("/api/productos/<id>", methods=['PUT'])
+def update_product(id):
+    data = request.json
+    new_stock = int(data.get('stock'))
+    
+    products_collection.update_one(
+        {'_id': ObjectId(id)},
+        {"$set": {"stock": new_stock}}
+    )
+    return jsonify({"message": "Stock actualizado"}), 200
+
+#Comprar 
+
+@app.route("/api/comprar", methods=['POST'])
+def buy_products():
+    cart = request.json.get('cart') 
+    if not cart:
+        return jsonify({"error": "El carrito está vacío"}), 400
+
+    for item in cart:
+        product_db = products_collection.find_one({'_id': ObjectId(item['_id'])})
+        if not product_db or product_db.get('stock', 0) < 1:
+            return jsonify({"error": f"El producto {item['name']} se agotó."}), 400
+
+    for item in cart:
+        products_collection.update_one(
+            {'_id': ObjectId(item['_id'])},
+            {"$inc": {"stock": -1}} 
+        )
+        
+    return jsonify({"message": "¡Compra realizada con éxito!"}), 200
 
 # --- RUTAS DE USUARIOS (AUTH) ---
 

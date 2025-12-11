@@ -21,7 +21,9 @@ function App() {
   const itemsPerPage = 20;
 
   // --- ESTADO PARA AGREGAR PRODUCTO (SOLO ADMIN) ---
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: 'Videojuego', imageUrl: '' });
+  const [newProduct, setNewProduct] = useState({ name: '', price: '', category: 'Videojuego', imageUrl: '', stock:10  });
+
+
 
   // Cargar productos al inicio
   useEffect(() => {
@@ -33,6 +35,36 @@ function App() {
       .then(res => res.json())
       .then(data => setProducts(data));
   };
+const handlePurchase = () => {
+    fetch(`${API_URL}/comprar`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cart: cartItems })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert("Error: " + data.error);
+      } else {
+        alert(data.message);
+        setCartItems([]); // Vaciamos el carrito visualmente
+        fetchProducts();  // Recargamos los productos para ver el nuevo stock
+      }
+    });
+  };
+
+  // --- (NUEVO) FUNCIÓN PARA ACTUALIZAR STOCK (ADMIN) ---
+  const handleUpdateStock = (id, newStock) => {
+    fetch(`${API_URL}/productos/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ stock: newStock })
+    })
+    .then(() => {
+      fetchProducts(); // Recargar lista inmediatamente
+    });
+  };
+
 
   // --- FUNCIONES DE AUTH ---
   const handleLogin = () => {
@@ -172,6 +204,7 @@ function App() {
             onAddToCart={(prod) => setCartItems([...cartItems, prod])} 
             user={user} 
             onDelete={handleDeleteProduct} 
+            onUpdateStock={handleUpdateStock}
           />
 
           {/* PAGINACIÓN */}
@@ -183,7 +216,9 @@ function App() {
             </div>
           )}
         </div>
-        <Cart cartItems={cartItems} />
+        <Cart cartItems={cartItems}
+        onPurchase={handlePurchase}
+        />
       </main>
     </div>
   );

@@ -1,6 +1,8 @@
 package dao;
 
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 import config.MongoConfig;
 import models.Producto;
 import org.bson.Document;
@@ -30,4 +32,26 @@ public class ProductoDAO {
         }
         return lista;
     }
+      public List<Producto> obtenerporcate(String categoria)
+      {
+         List<Producto> lista= new ArrayList<>();
+         MongoCursor<Document> cursor=collection.find(Filters.eq("category", categoria)).iterator();
+         try
+         {
+             while (cursor.hasNext())
+             {
+                 Document doc = cursor.next();
+                 Producto p = new Producto();
+                 p.setName(doc.getString("name"));
+                 p.setCategory(doc.getString("category"));
+                 p.setPrice(doc.getDouble("price"));
+                 p.setStock(doc.getInteger("stock"));
+                 p.setImageUrl(doc.getString("imageUrl"));
+                 lista.add(p);
+             }
+         } 
+         finally {cursor.close();}
+         return lista;
+      }
+   
 }

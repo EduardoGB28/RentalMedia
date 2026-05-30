@@ -21,12 +21,12 @@ public class Noticia {
         this.url = url;
         this.urlImagen = urlImagen;
     }
-
+//getters
     public String getTitulo() { return titulo; }
     public String getDescripcion() { return descripcion; }
     public String getUrl() { return url; }
     public String getUrlImagen() { return urlImagen; }
-    
+//setters
     public void setTitulo(String titulo) { this.titulo = titulo; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public void setUrl(String url) { this.url = url; }

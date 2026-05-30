@@ -245,10 +245,11 @@
 
         <div class="bottom-bar">
             <ul class="nav-links">
-                <li><a href="${pageContext.request.contextPath}/catalogo">Inicio</a></li>
-                <li><a href="#">Videojuegos</a></li>
-                <li><a href="#">Peliculas y Series</a></li>
-                <li><a href="#">Manga</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo">Catalogo Completo</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Videojuego">Videojuegos</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Pelicula">Peliculas</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Anime">Anime</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Serie">Series</a></li>
             </ul>
         </div>
     </header>

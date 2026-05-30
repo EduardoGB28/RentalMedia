@@ -20,7 +20,13 @@ public class CatalogoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductoDAO dao = new ProductoDAO();
-        List<Producto> productos = dao.obtenerTodos();
+        List<Producto> productos;
+        String categoriaFiltro= request.getParameter("categoria");
+        if (categoriaFiltro !=null && !categoriaFiltro.isEmpty()){
+            productos=dao.obtenerporcate(categoriaFiltro);
+        } else{
+            productos=dao.obtenerTodos();
+        }
         request.setAttribute("listaProductos", productos);
         NoticiasService noticiasService = new NoticiasService();
         List<Noticia> listaNoticias = noticiasService.obtenerNoticias();

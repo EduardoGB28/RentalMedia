@@ -222,26 +222,31 @@
 
 
     <header>
-        <div class="top-bar">
-            <div class="brand-section">
-                <div class="menu-btn">
-                    <i class="fa-solid fa-bars"></i>
-                    <span>Menu</span>
-                </div>
-                <div class="logo">RENTAL MEDIA</div>
-            </div>
-
-            <div class="search-container">
-                <input type="text" placeholder="¿Qué quieres buscar hoy?">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
+    <div class="user-section">
+        <c:if test="${empty sessionScope.usuarioLogueado}">
+            <a href="${pageContext.request.contextPath}/login" style="text-decoration: none; color: white;">
                 <div class="icon-btn">
-                    <i class="fa-solid fa-basket-shopping"></i>
-                    <span>Cesta</span>
+                    <i class="fa-regular fa-user"></i>
+                    <span>Iniciar Sesión</span>
                 </div>
-                <button class="action-btn">Adquirir Tokens</button>
-            </div>
+            </a>
+        </c:if>
+
+    <c:if test="${not empty sessionScope.usuarioLogueado}">
+        <div class="icon-btn" style="cursor: default;">
+            <i class="fa-solid fa-user-check"></i>
+            <span>Hola, ${sessionScope.usuarioLogueado.username}</span>
         </div>
+        <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 10px;">
+            <div class="icon-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Salir</span>
+            </div>
+        </a>
+    </c:if>
+
+    <button class="action-btn">Adquirir Tokens</button>
+</div>
 
         <div class="bottom-bar">
             <ul class="nav-links">

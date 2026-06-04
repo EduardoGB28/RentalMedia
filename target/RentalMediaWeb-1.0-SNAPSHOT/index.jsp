@@ -250,6 +250,7 @@
 
         <div class="bottom-bar">
             <ul class="nav-links">
+                <li><a href="${pageContext.request.contextPath}/inicio.jsp">Inicio</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo">Catalogo Completo</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Videojuego">Videojuegos</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Pelicula">Peliculas</a></li>

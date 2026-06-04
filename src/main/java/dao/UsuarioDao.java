@@ -20,6 +20,7 @@ public class UsuarioDAO
        Usuario user=new Usuario();
        user.setUsername(doc.getString("username"));
        user.setRole(doc.getString("role"));
+       return user;
    }
    return null;
     }

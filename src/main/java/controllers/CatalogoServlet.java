@@ -31,6 +31,6 @@ public class CatalogoServlet extends HttpServlet {
         NoticiasService noticiasService = new NoticiasService();
         List<Noticia> listaNoticias = noticiasService.obtenerNoticias();
         request.setAttribute("noticias", listaNoticias);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("catalogo.jsp").forward(request, response);
     }
 }

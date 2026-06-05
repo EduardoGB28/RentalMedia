@@ -3,7 +3,6 @@
     Created on : 4 abr 2026, 8:15:32 p.m.
     Author     : lalol
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -14,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-
         :root {
             --verde-lima: #74C000; 
             --verde-oscuro: #5a9600;
@@ -47,7 +45,6 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            cursor: pointer;
         }
 
         .menu-btn {
@@ -56,6 +53,7 @@
             align-items: center;
             font-size: 12px;
             gap: 5px;
+            cursor: pointer;
         }
 
         .menu-btn i { font-size: 24px; }
@@ -65,33 +63,6 @@
             font-weight: 900;
             letter-spacing: -1px;
             font-style: italic;
-        }
-
-        .search-container {
-            flex: 1; 
-            position: relative;
-            max-width: 700px;
-        }
-
-        .search-container input {
-            width: 100%;
-            padding: 12px 20px;
-            padding-right: 45px; 
-            border-radius: 25px; 
-            border: none;
-            outline: none;
-            font-size: 16px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .search-container i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-            font-size: 18px;
-            cursor: pointer;
         }
 
         .user-section {
@@ -152,7 +123,6 @@
 
         .nav-links li a:hover { opacity: 0.7; }
 
-
         .layout-principal {
             display: flex;
             gap: 25px;
@@ -197,72 +167,116 @@
             top: 20px;
         }
 
-        .nota-card {
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+        .nota-card { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .nota-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .nota-img { width: 100%; height: 140px; object-fit: cover; border-radius: 5px; margin-bottom: 10px; }
+        
+        /* ESTILOS DEL MENÚ LATERAL */
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background-color: rgba(0,0,0,0.6); z-index: 998;
+            opacity: 0; visibility: hidden; transition: 0.3s ease;
         }
-
-        .nota-card:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
+        .sidebar-overlay.activo { opacity: 1; visibility: visible; }
+        .sidebar {
+            position: fixed; top: 0; left: -300px; 
+            width: 280px; height: 100vh; background-color: white;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.2); z-index: 999;
+            transition: 0.3s ease-in-out; display: flex; flex-direction: column;
         }
-
-        .nota-img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
+        .sidebar.activo { left: 0; }
+        .sidebar-header {
+            background-color: var(--verde-oscuro); color: white; padding: 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
+        .sidebar-header h2 { margin: 0; font-size: 1.2em; }
+        .sidebar-header i { font-size: 1.5em; cursor: pointer; transition: 0.2s; }
+        .sidebar-header i:hover { color: #ff4d4d; transform: scale(1.1); }
+        .sidebar-content { padding: 20px; overflow-y: auto; }
+        .sidebar-content h3 { color: #888; font-size: 0.9em; text-transform: uppercase; margin-bottom: 15px; }
+        .sidebar-content ul { list-style: none; padding: 0; margin: 0 0 25px 0; }
+        .sidebar-content ul li { margin-bottom: 15px; }
+        .sidebar-content ul li a { 
+            text-decoration: none; color: #333; font-weight: 600; display: flex; 
+            align-items: center; gap: 15px; transition: 0.2s; 
+        }
+        .sidebar-content ul li a i { color: var(--verde-lima); width: 20px; text-align: center; font-size: 1.2em; }
+        .sidebar-content ul li a:hover { color: var(--verde-lima); padding-left: 5px; }
+        .sidebar-content hr { border: none; border-top: 1px solid #eee; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
+    <div class="sidebar-overlay" id="fondoOscuro"></div>
+    <nav class="sidebar" id="menuLateral">
+        <div class="sidebar-header">
+            <h2>Panel de Control</h2>
+            <i class="fa-solid fa-xmark" id="btnCerrarMenu"></i>
+        </div>
+        <div class="sidebar-content">
+            <h3><i class="fa-solid fa-user-gear"></i> Mi Cuenta</h3>
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-id-badge"></i> Mi Perfil</a></li>
+                <li><a href="#"><i class="fa-solid fa-coins"></i> Mi Billetera</a></li>
+                <li><a href="#"><i class="fa-solid fa-box-open"></i> Mis Rentas</a></li>
+            </ul>
+            <hr>
+            <h3><i class="fa-solid fa-circle-info"></i> Ayuda</h3>
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-file-contract"></i> Reglas de Renta</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <header>
-    <div class="user-section">
-        <c:if test="${empty sessionScope.usuarioLogueado}">
-            <a href="${pageContext.request.contextPath}/login" style="text-decoration: none; color: white;">
-                <div class="icon-btn">
-                    <i class="fa-regular fa-user"></i>
-                    <span>Iniciar Sesión</span>
+        <div class="top-bar">
+            <div class="brand-section">
+                <div class="menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                    <span>Menú</span>
                 </div>
-            </a>
-        </c:if>
-
-    <c:if test="${not empty sessionScope.usuarioLogueado}">
-        <div class="icon-btn" style="cursor: default;">
-            <i class="fa-solid fa-user-check"></i>
-            <span>Hola, ${sessionScope.usuarioLogueado.username}</span>
-        </div>
-        <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 10px;">
-            <div class="icon-btn">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Salir</span>
+                <div class="logo">RENTAL MEDIA</div>
             </div>
-        </a>
-    </c:if>
 
-    <button class="action-btn">Adquirir Tokens</button>
-</div>
+            <div class="user-section">
+                <c:if test="${empty sessionScope.usuarioLogueado}">
+                    <a href="${pageContext.request.contextPath}/login" style="text-decoration: none; color: white;">
+                        <div class="icon-btn">
+                            <i class="fa-regular fa-user"></i>
+                            <span>Iniciar Sesión</span>
+                        </div>
+                    </a>
+                </c:if>
+
+                <c:if test="${not empty sessionScope.usuarioLogueado}">
+                    <div class="icon-btn" style="cursor: default;">
+                        <i class="fa-solid fa-user-check"></i>
+                        <span>Hola, ${sessionScope.usuarioLogueado.username}</span>
+                    </div>
+                    <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 10px;">
+                        <div class="icon-btn">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Salir</span>
+                        </div>
+                    </a>
+                </c:if>
+                <button class="action-btn">Adquirir Tokens</button>
+            </div>
+        </div>
 
         <div class="bottom-bar">
             <ul class="nav-links">
-                <li><a href="${pageContext.request.contextPath}/inicio.jsp">Inicio</a></li>
-                <li><a href="${pageContext.request.contextPath}/catalogo">Catalogo Completo</a></li>
+                <li><a href="${pageContext.request.contextPath}/inicio">Inicio</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo">Catálogo Completo</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Videojuego">Videojuegos</a></li>
-                <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Pelicula">Peliculas</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Pelicula">Películas</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Anime">Anime</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Serie">Series</a></li>
             </ul>
         </div>
     </header>
 
-
     <div class="layout-principal">
-        
         <div class="seccion-catalogo">
             <h1 style="text-align: center; color: #333;">Catálogo de Rental Media</h1>
             
@@ -287,19 +301,28 @@
                     <c:if test="${not empty nota.urlImagen}">
                         <img src="${nota.urlImagen}" class="nota-img" alt="Imagen de la noticia" loading="lazy">
                     </c:if>
-                    
                     <h4 style="margin: 0 0 8px 0; font-size: 1.1em; color: #222;">${nota.titulo}</h4>
-                    
-                    <p style="font-size: 0.9em; color: #666; margin: 0 0 10px 0;">
-                        ${nota.descripcion}
-                    </p>
-                    
+                    <p style="font-size: 0.9em; color: #666; margin: 0 0 10px 0;">${nota.descripcion}</p>
                     <a href="${nota.url}" target="_blank" style="text-decoration: none; color: white; background-color: #007bff; padding: 6px 12px; border-radius: 4px; font-size: 0.85em; display: inline-block;">Leer nota completa</a>
                 </div>
             </c:forEach>
         </div>
-
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const btnAbrir = document.querySelector('.menu-btn');
+            const btnCerrar = document.getElementById('btnCerrarMenu');
+            const menuLateral = document.getElementById('menuLateral');
+            const fondoOscuro = document.getElementById('fondoOscuro');
+            function toggleMenu() {
+                if(menuLateral) menuLateral.classList.toggle('activo');
+                if(fondoOscuro) fondoOscuro.classList.toggle('activo');
+            }
+            if(btnAbrir) btnAbrir.addEventListener('click', toggleMenu);
+            if(btnCerrar) btnCerrar.addEventListener('click', toggleMenu);
+            if(fondoOscuro) fondoOscuro.addEventListener('click', toggleMenu);
+        });
+    </script>
 </body>
 </html>

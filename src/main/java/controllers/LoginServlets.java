@@ -17,7 +17,6 @@ public class LoginServlets extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -32,7 +31,7 @@ public class LoginServlets extends HttpServlet {
             if ("admin".equals(usuarioValidado.getRole())) {
                 response.sendRedirect(request.getContextPath() + "/admin.jsp"); 
             } else {
-                response.sendRedirect(request.getContextPath() + "/catalogo");
+                response.sendRedirect(request.getContextPath() + "/inicio");
             }
         } else {
             request.setAttribute("error", "Usuario o contraseña incorrectos.");

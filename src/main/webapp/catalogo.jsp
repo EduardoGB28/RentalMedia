@@ -170,8 +170,7 @@
         .nota-card { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
         .nota-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .nota-img { width: 100%; height: 140px; object-fit: cover; border-radius: 5px; margin-bottom: 10px; }
-        
-        /* ESTILOS DEL MENÚ LATERAL */
+
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background-color: rgba(0,0,0,0.6); z-index: 998;
@@ -230,12 +229,19 @@
 
     <header>
         <div class="top-bar">
+            
             <div class="brand-section">
-                <div class="menu-btn">
-                    <i class="fa-solid fa-bars"></i>
-                    <span>Menú</span>
-                </div>
+                <div class="menu-btn"><i class="fa-solid fa-bars"></i><span>Menú</span></div>
                 <div class="logo">RENTAL MEDIA</div>
+            </div>
+
+            <div class="search-container" style="flex-grow: 1; display: flex; justify-content: center; padding: 0 40px;">
+                <form action="${pageContext.request.contextPath}/catalogo" method="get" style="display: flex; align-items: center; background: white; border-radius: 25px; padding: 6px 20px; width: 100%; max-width: 500px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                    <input type="text" name="q" placeholder="Buscar películas, videojuegos..." style="border: none; outline: none; padding: 5px; width: 100%; font-size: 14px;">
+                    <button type="submit" style="background: none; border: none; cursor: pointer; color: var(--verde-oscuro); font-size: 16px;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
             </div>
 
             <div class="user-section">
@@ -253,18 +259,32 @@
                         <i class="fa-solid fa-user-check"></i>
                         <span>Hola, ${sessionScope.usuarioLogueado.username}</span>
                     </div>
-                    <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 10px;">
+                    
+                    <c:if test="${sessionScope.usuarioLogueado.role == 'user'}">
+                        <a href="${pageContext.request.contextPath}/carrito.jsp" style="text-decoration: none; color: white; margin-left: 15px;">
+                            <div class="icon-btn">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Carrito 
+                                    <c:if test="${not empty sessionScope.carritoRentas}">
+                                        <b style="background: red; border-radius: 50%; padding: 2px 6px; font-size: 11px;">${sessionScope.carritoRentas.size()}</b>
+                                    </c:if>
+                                </span>
+                            </div>
+                        </a>
+                    </c:if>
+
+                    <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 15px;">
                         <div class="icon-btn">
                             <i class="fa-solid fa-right-from-bracket"></i>
                             <span>Salir</span>
                         </div>
                     </a>
                 </c:if>
-                <button class="action-btn">Adquirir Tokens</button>
-            </div>
-        </div>
 
-        <div class="bottom-bar">
+                <button class="action-btn" style="margin-left: 15px;">Adquirir Tokens</button>
+            </div>
+            
+        </div> <div class="bottom-bar">
             <ul class="nav-links">
                 <li><a href="${pageContext.request.contextPath}/inicio">Inicio</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo">Catálogo Completo</a></li>
@@ -275,7 +295,6 @@
             </ul>
         </div>
     </header>
-
     <div class="layout-principal">
         <div class="seccion-catalogo">
             <h1 style="text-align: center; color: #333;">Catálogo de Rental Media</h1>
@@ -283,12 +302,30 @@
             <div class="grid-container">
                 <c:forEach var="prod" items="${listaProductos}">
                     <div class="card">
-                        <img src="${pageContext.request.contextPath}${prod.imageUrl}" alt="${prod.name}" loading="lazy">
-                        <h3>${prod.name}</h3>
-                        <p><strong>Categoría:</strong> ${prod.category}</p>
-                        <p class="price">$${prod.price}</p>
-                        <p class="stock">Disponibles: ${prod.stock}</p>
-                    </div>
+        <img src="${pageContext.request.contextPath}${prod.imageUrl}" alt="${prod.name}">
+        <h3>${prod.name}</h3>
+        <p class="price">$${prod.price}</p>
+        
+        <c:choose>
+            <c:when test="${empty sessionScope.usuarioLogueado}">
+                <a href="${pageContext.request.contextPath}/login" class="action-btn" style="display:block; text-align:center; margin-top:10px;">Inicia sesión para rentar</a>
+            </c:when>
+            <c:when test="${sessionScope.usuarioLogueado.role == 'user'}">
+                <form action="${pageContext.request.contextPath}/carrito" method="post">
+                    <input type="hidden" name="idProducto" value="${prod.name}"> 
+                    <button type="submit" class="action-btn" style="width:100%; margin-top:10px;">
+                        <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                    </button>
+                </form>
+            </c:when>
+            <c:otherwise>
+                <button class="action-btn" style="width:100%; margin-top:10px; background-color: #333; color:white;">
+                    <i class="fa-solid fa-pen"></i> Editar Producto
+                </button>
+            </c:otherwise>
+        </c:choose>
+
+    </div>
                 </c:forEach>
             </div>
         </div>

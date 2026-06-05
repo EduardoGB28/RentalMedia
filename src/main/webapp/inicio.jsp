@@ -53,8 +53,7 @@
             display: flex; align-items: center; justify-content: center; text-align: center; color: white;
         }
         .slide.activo { opacity: 1; z-index: 1; }
-        
-        /* Diseños de fondo con degradados para que nunca dependan de links rotos */
+
         .slide-bg-1 { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1600') center/cover; }
         .slide-bg-2 { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1600') center/cover; }
 
@@ -64,7 +63,7 @@
         .btn-principal { background-color: var(--verde-lima); color: white; padding: 12px 30px; border-radius: 30px; font-size: 1.1em; font-weight: bold; text-decoration: none; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .btn-principal:hover { background-color: var(--verde-oscuro); transform: translateY(-2px); }
 
-        /* SLIDER HORIZONTAL DINÁMICO */
+
         .slider-section { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
         .slider-section h2 { color: #333; font-size: 1.8em; margin-bottom: 20px; border-left: 5px solid var(--verde-lima); padding-left: 15px; }
         .slider-wrapper { display: flex; overflow-x: auto; gap: 20px; padding-bottom: 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
@@ -82,7 +81,6 @@
         .slider-card .categoria-tag { font-size: 0.85em; color: #777; margin-bottom: 5px; }
         .slider-card .price { color: #2ecc71; font-weight: bold; margin: 0; font-size: 1.2em; }
 
-        /* SECCIÓN PASOS */
         .como-funciona { max-width: 1200px; margin: 60px auto; text-align: center; padding: 0 20px; }
         .como-funciona h2 { color: #333; font-size: 2.2em; margin-bottom: 40px; }
         .pasos-container { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
@@ -117,28 +115,65 @@
         </div>
     </nav>
     <header>
-        <div class="top-bar">
+       <div class="top-bar">
+            
             <div class="brand-section">
-                <div class="menu-btn"><i class="fa-solid fa-bars"></i><span>Menú</span></div>
+                <div class="menu-btn">
+                    <i class="fa-solid fa-bars"></i>
+                    <span>Menú</span>
+                </div>
                 <div class="logo">RENTAL MEDIA</div>
+            </div>
+
+            <div class="search-container" style="flex-grow: 1; display: flex; justify-content: center; padding: 0 40px;">
+                <form action="${pageContext.request.contextPath}/catalogo" method="get" style="display: flex; align-items: center; background: white; border-radius: 25px; padding: 6px 20px; width: 100%; max-width: 500px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+                    <input type="text" name="q" placeholder="Buscar películas, videojuegos o mangas..." style="border: none; outline: none; padding: 5px; width: 100%; font-size: 14px;">
+                    <button type="submit" style="background: none; border: none; cursor: pointer; color: var(--verde-oscuro); font-size: 16px;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
             </div>
 
             <div class="user-section">
                 <c:if test="${empty sessionScope.usuarioLogueado}">
                     <a href="${pageContext.request.contextPath}/login" style="text-decoration: none; color: white;">
-                        <div class="icon-btn"><i class="fa-regular fa-user"></i><span>Iniciar Sesión</span></div>
+                        <div class="icon-btn">
+                            <i class="fa-regular fa-user"></i>
+                            <span>Iniciar Sesión</span>
+                        </div>
                     </a>
                 </c:if>
+
                 <c:if test="${not empty sessionScope.usuarioLogueado}">
                     <div class="icon-btn" style="cursor: default;">
-                        <i class="fa-solid fa-user-check"></i><span>Hola, ${sessionScope.usuarioLogueado.username}</span>
+                        <i class="fa-solid fa-user-check"></i>
+                        <span>Hola, ${sessionScope.usuarioLogueado.username}</span>
                     </div>
-                    <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 10px;">
-                        <div class="icon-btn"><i class="fa-solid fa-right-from-bracket"></i><span>Salir</span></div>
+                    
+                    <c:if test="${sessionScope.usuarioLogueado.role == 'user'}">
+                        <a href="${pageContext.request.contextPath}/carrito.jsp" style="text-decoration: none; color: white; margin-left: 15px;">
+                            <div class="icon-btn">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Carrito 
+                                    <c:if test="${not empty sessionScope.carritoRentas}">
+                                        <b style="background: red; border-radius: 50%; padding: 2px 6px; font-size: 11px;">${sessionScope.carritoRentas.size()}</b>
+                                    </c:if>
+                                </span>
+                            </div>
+                        </a>
+                    </c:if>
+
+                    <a href="${pageContext.request.contextPath}/logout" style="text-decoration: none; color: #ff4d4d; margin-left: 15px;">
+                        <div class="icon-btn">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Salir</span>
+                        </div>
                     </a>
                 </c:if>
-                <button class="action-btn">Adquirir Tokens</button>
+
+                <button class="action-btn" style="margin-left: 15px;">Adquirir Tokens</button>
             </div>
+            
         </div>
 
        <div class="bottom-bar">

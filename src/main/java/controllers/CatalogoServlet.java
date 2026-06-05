@@ -22,9 +22,17 @@ public class CatalogoServlet extends HttpServlet {
         ProductoDAO dao = new ProductoDAO();
         List<Producto> productos;
         String categoriaFiltro= request.getParameter("categoria");
-        if (categoriaFiltro !=null && !categoriaFiltro.isEmpty()){
-            productos=dao.obtenerporcate(categoriaFiltro);
-        } else{
+        String busqueda = request.getParameter("q");
+        if (busqueda != null && !busqueda.trim().isEmpty())
+        {
+            productos=dao.srchname(busqueda.trim());
+        }
+        else if(categoriaFiltro != null && !categoriaFiltro.isEmpty())
+        {
+             productos=dao.obtenerporcate(categoriaFiltro);
+        }
+        else 
+        {
             productos=dao.obtenerTodos();
         }
         request.setAttribute("listaProductos", productos);

@@ -1,13 +1,14 @@
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\controllers\InicioServlet.java
+C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\controllers\CarritoServlet.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\com\mycompany\rentalmediaweb\JakartaRestConfiguration.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\config\MongoConfig.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\controllers\CatalogoServlet.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\dao\UsuarioDAO.java
-C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\ProductoDAO.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\models\Producto.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\controllers\LoginServlets.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\controllers\LogoutServlet.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\com\mycompany\services\NoticiasService.java
+C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\dao\ProductoDAO.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\models\Noticia.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\com\mycompany\rentalmediaweb\resources\JakartaEE8Resource.java
 C:\Users\lalol\OneDrive\Documentos\NetBeansProjects\RentalMediaWeb\src\main\java\models\Usuario.java

@@ -8,6 +8,7 @@ import com.mongodb.client.MongoDatabase;
 import models.Venta;
 import org.bson.Document;
 import config.MongoConfig;
+import java.util.List;
 
 
 
@@ -17,19 +18,34 @@ public class VentaDAO {
     public VentaDAO(){
     this.collection = MongoConfig.getDatabase().getCollection("ventas");
 }
-
-public boolean registrarVenta(Venta nuevaVenta){
- try{
-Document doc=new Document("username", nuevaVenta.getUsername())
-        .append("productos", nuevaVenta.getNombresProductos())
-        .append("total", nuevaVenta.getTotal())
-        .append("fecha", nuevaVenta.getFechaVenta());
-
- collection.insertOne(doc);
-return true;
-}catch (Exception e) {
-        System.out.println("Error al registrar la venta en Mongo: " + e.getMessage());
-        return false;
-}
-}
+    public String registrarVenta(Venta nuevaVenta) {
+        try {
+            Document doc = new Document("username", nuevaVenta.getUsername())
+                    .append("productos", nuevaVenta.getNombresProductos())
+                    .append("total", nuevaVenta.getTotal())
+                    .append("fecha", nuevaVenta.getFechaVenta());
+            collection.insertOne(doc);
+            return doc.getObjectId("_id").toHexString();
+        } catch (Exception e) {
+            System.out.println("Error al registrar la venta en Mongo: " + e.getMessage());
+            return null;
+        }
+    }
+    public Venta obtenerVentaPorId(String idHexadecimal) {
+        try {
+            org.bson.types.ObjectId idMongo = new org.bson.types.ObjectId(idHexadecimal);
+            Document doc = collection.find(com.mongodb.client.model.Filters.eq("_id", idMongo)).first();
+            if (doc != null) {
+                Venta ventaEncontrada = new Venta();
+                ventaEncontrada.setUsername(doc.getString("username"));
+                ventaEncontrada.setNombresProductos((List<String>) doc.get("productos"));
+                ventaEncontrada.setTotal(doc.getDouble("total"));
+                ventaEncontrada.setFechaVenta(doc.getDate("fecha"));
+                return ventaEncontrada;
+            }
+        } catch (Exception e) {
+            System.out.println("Error al buscar la venta: " + e.getMessage());
+        }
+        return null;
+    }
 }

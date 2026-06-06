@@ -36,11 +36,11 @@ public class CheckoutServlet extends HttpServlet {
             }
             Venta nuevaVenta = new Venta(usuario.getUsername(), nombresProductos, totalAPagar, new Date());
             VentaDAO dao = new VentaDAO();
-            boolean exito = dao.registrarVenta(nuevaVenta);
-            if (exito) {
+            String idVenta = dao.registrarVenta(nuevaVenta);
+            if (idVenta != null) {
                 sesion.removeAttribute("carritoRentas");
-                System.out.println("¡Venta registrada exitosamente en MongoDB!");
-                response.sendRedirect(request.getContextPath() + "/catalogo");
+                System.out.println("¡Venta registrada con ID: " + idVenta + "!");
+                response.sendRedirect(request.getContextPath() + "/resumen.jsp?id=" + idVenta);
             } else {
                 System.out.println("Error al guardar la venta.");
                 response.sendRedirect(request.getContextPath() + "/carrito.jsp");

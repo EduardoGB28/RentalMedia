@@ -8,6 +8,7 @@ controllers\CheckoutServlet.class
 controllers\RegistroServlet.class
 models\Usuario.class
 controllers\LogoutServlet.class
+controllers\TicketServlet.class
 controllers\LoginServlets.class
 com\mycompany\rentalmediaweb\JakartaRestConfiguration.class
 models\Venta.class
@@ -16,3 +17,4 @@ controllers\InicioServlet.class
 dao\UsuarioDAO.class
 dao\ProductoDAO.class
 models\Producto.class
+controllers\QrServlet.class

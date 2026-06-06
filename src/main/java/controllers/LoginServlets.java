@@ -16,7 +16,6 @@ public class LoginServlets extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
         dao.ProductoDAO dao = new dao.ProductoDAO();
         List<models.Producto> productos = dao.obtenerTodos();
         request.setAttribute("productosFondo", productos);
@@ -28,19 +27,18 @@ public class LoginServlets extends HttpServlet {
         String password = request.getParameter("password");
 
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario usuarioValidado = dao.auth(username, password);
-
-        if (usuarioValidado != null) {
-            HttpSession sesion = request.getSession();
-            sesion.setAttribute("usuarioLogueado", usuarioValidado);
-            if ("admin".equals(usuarioValidado.getRole())) {
-                response.sendRedirect(request.getContextPath() + "/admin.jsp"); 
+        Usuario usuarioValido = dao.auth(username, password);       
+            if (usuarioValido != null) {
+                HttpSession sesion = request.getSession();
+                sesion.setAttribute("usuarioLogueado", usuarioValido);
+                if ("admin".equals(usuarioValido.getRole())) {
+                    response.sendRedirect(request.getContextPath() + "/admin.jsp");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/catalogo");
+                }               
             } else {
-                response.sendRedirect(request.getContextPath() + "/inicio");
+                request.setAttribute("error", "Usuario o contraseña incorrectos.");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-        } else {
-            request.setAttribute("error", "Usuario o contraseña incorrectos.");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
     }
 }

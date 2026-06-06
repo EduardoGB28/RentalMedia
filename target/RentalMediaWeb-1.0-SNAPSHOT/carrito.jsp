@@ -74,8 +74,8 @@
 
                 <div style="text-align: right; margin-top: 20px;">
                     <a href="${pageContext.request.contextPath}/catalogo" class="btn-seguir">Seguir comprando</a>
-                    <form action="#" method="post" style="display: inline;">
-                        <button type="submit" class="btn-checkout">Confirmar Renta y Pagar</button>
+                    <form action="${pageContext.request.contextPath}/checkout" method="post" style="display: inline;">
+                        <button type="submit" class="btn-checkout">Confirmar Venta y Pagar</button>
                     </form>
                 </div>
             </c:otherwise>

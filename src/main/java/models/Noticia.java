@@ -1,10 +1,6 @@
 
 package models;
 
-/**
- *
- * @author lalol
- */
 public class Noticia {
     private String titulo;
     private String descripcion;

@@ -3,6 +3,7 @@ com\mycompany\services\NoticiasService.class
 models\Noticia.class
 com\mycompany\rentalmediaweb\resources\JakartaEE8Resource.class
 controllers\CarritoServlet.class
+controllers\RegistroServlet.class
 models\Usuario.class
 controllers\LogoutServlet.class
 controllers\LoginServlets.class

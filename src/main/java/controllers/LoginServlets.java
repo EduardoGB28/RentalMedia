@@ -3,6 +3,7 @@ package controllers;
 import dao.UsuarioDAO;
 import models.Usuario;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,10 @@ public class LoginServlets extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+        dao.ProductoDAO dao = new dao.ProductoDAO();
+        List<models.Producto> productos = dao.obtenerTodos();
+        request.setAttribute("productosFondo", productos);
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
     @Override

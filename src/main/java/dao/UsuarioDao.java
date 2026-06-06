@@ -24,4 +24,23 @@ public class UsuarioDAO
    }
    return null;
     }
+    public boolean UsuCreate(String username, String password)
+    {
+     try 
+     {
+         org.bson.Document usuarioExistente=collection.find(com.mongodb.client.model.Filters.eq("username",username)).first();
+         if (usuarioExistente !=null){
+             return false;
+         }
+         org.bson.Document nuevoUsuario=new org.bson.Document("username",username)
+                 .append("password", password)
+                 .append("role","user");
+         collection.insertOne(nuevoUsuario);
+         return true;
+     }
+     catch (Exception e){
+         System.out.println("Error al crear la cuenta"+e.getMessage());
+         return false;
+     }
+    }
 }

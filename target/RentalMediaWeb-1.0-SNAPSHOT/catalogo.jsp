@@ -236,9 +236,9 @@
             </div>
 
             <div class="search-container" style="flex-grow: 1; display: flex; justify-content: center; padding: 0 40px;">
-                <form action="${pageContext.request.contextPath}/catalogo" method="get" style="display: flex; align-items: center; background: white; border-radius: 25px; padding: 6px 20px; width: 100%; max-width: 500px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
-                    <input type="text" name="q" placeholder="Buscar películas, videojuegos..." style="border: none; outline: none; padding: 5px; width: 100%; font-size: 14px;">
-                    <button type="submit" style="background: none; border: none; cursor: pointer; color: var(--verde-oscuro); font-size: 16px;">
+                <form action="${pageContext.request.contextPath}/catalogo" method="get" style="display: flex; align-items: center; background: white; border-radius: 20px; padding: 5px 15px; width: 100%; max-width: 500px;">
+                    <input type="text" name="q" placeholder="Buscar películas, juegos..." style="border: none; outline: none; padding: 5px; width: 100%;">
+                    <button type="submit" style="background: none; border: none; cursor: pointer; color: #5a9600;">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>
@@ -266,7 +266,7 @@
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 <span>Carrito 
                                     <c:if test="${not empty sessionScope.carritoRentas}">
-                                        <b style="background: red; border-radius: 50%; padding: 2px 6px; font-size: 11px;">${sessionScope.carritoRentas.size()}</b>
+                                        <b style="background: red; border-radius: 50%; padding: 2px 6px;">${sessionScope.carritoRentas.size()}</b>
                                     </c:if>
                                 </span>
                             </div>
@@ -280,10 +280,8 @@
                         </div>
                     </a>
                 </c:if>
-
                 <button class="action-btn" style="margin-left: 15px;">Adquirir Tokens</button>
             </div>
-            
         </div> <div class="bottom-bar">
             <ul class="nav-links">
                 <li><a href="${pageContext.request.contextPath}/inicio">Inicio</a></li>
@@ -295,6 +293,7 @@
             </ul>
         </div>
     </header>
+
     <div class="layout-principal">
         <div class="seccion-catalogo">
             <h1 style="text-align: center; color: #333;">Catálogo de Rental Media</h1>

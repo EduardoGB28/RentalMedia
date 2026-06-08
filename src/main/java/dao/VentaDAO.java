@@ -48,4 +48,21 @@ public class VentaDAO {
         }
         return null;
     }
+    public List<Venta> obtenerVentasPorUsuario(String username) {
+        List<Venta> listaHistorial = new java.util.ArrayList<>();
+        try {
+            for (Document doc : collection.find(com.mongodb.client.model.Filters.eq("username", username))) {
+                Venta v = new Venta();
+                v.setId(doc.getObjectId("_id").toHexString());
+                v.setUsername(doc.getString("username"));
+                v.setNombresProductos((List<String>) doc.get("productos"));
+                v.setTotal(doc.getDouble("total"));
+                v.setFechaVenta(doc.getDate("fecha"));
+                listaHistorial.add(v);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al obtener historial: " + e.getMessage());
+        }
+        return listaHistorial;
+    }
 }

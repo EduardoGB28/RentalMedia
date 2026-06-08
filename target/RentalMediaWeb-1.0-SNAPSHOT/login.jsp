@@ -18,24 +18,20 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0b0d; /* Fondo oscuro base */
+            background-color: #0b0b0d; 
             overflow: hidden;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        /* =========================================
-           FONDO ANIMADO (MURAL EN MOVIMIENTO)
-           ========================================= */
         .bg-container {
             position: absolute;
             top: -30%;
             left: -30%;
             width: 160%;
             height: 160%;
-            transform: rotate(-12deg); /* Inclinación limpia estilo Roblox */
+            transform: rotate(-12deg); 
             display: flex;
             gap: 20px;
             justify-content: center;
@@ -49,7 +45,7 @@
             width: 180px;
         }
 
-        /* Animaciones infinitas fluidas */
+      
         .bg-column.up { animation: scrollUp 40s linear infinite; }
         .bg-column.down { animation: scrollDown 40s linear infinite; }
 
@@ -59,7 +55,7 @@
             border-radius: 12px;
             background-size: cover;
             background-position: center;
-            background-color: #222; /* Color de respaldo si una imagen tarda en cargar */
+            background-color: #222;
             box-shadow: 0 8px 20px rgba(0,0,0,0.5);
         }
 
@@ -135,7 +131,7 @@
 
         .pill-btn.active { color: white; }
 
-        /* Control de secciones activas */
+ 
         .form-section { display: none; }
         .form-section.active { display: block; animation: panelEntrada 0.4s ease-out; }
 
@@ -195,29 +191,46 @@
         </div>
 
         <div class="form-section active" id="formAcceder">
-            <form action="${pageContext.request.contextPath}/login" method="post">
+            <form action="${pageContext.request.contextPath}/login" method="POST">
                 <div class="input-group">
                     <label>Nombre de Usuario</label>
-                    <input type="text" name="username" required placeholder="Tu usuario o email">
+                    <input type="text" name="username" required placeholder="Ej. lalo_gamer">
                 </div>
                 <div class="input-group">
                     <label>Contraseña</label>
-                    <input type="password" name="password" required placeholder="••••••••">
+                    <input type="password" name="password" required placeholder="......">
                 </div>
-                <button type="submit" class="btn-submit">Iniciar Sesión</button>
+                <button type="submit" class="btn-submit">Acceder</button>
             </form>
         </div>
 
         <div class="form-section" id="formRegistrar">
-            <form action="${pageContext.request.contextPath}/registro" method="post">
+            <form action="${pageContext.request.contextPath}/registro" method="POST">
                 <div class="input-group">
                     <label>Elige un Nombre de Usuario</label>
-                    <input type="text" name="nuevoUsername" required placeholder="Ej. lalo_gamer">
+                    <input type="text" name="username" required placeholder="Ej. lalo_gamer">
                 </div>
+                
+                <div class="input-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" name="nombreCompleto" required placeholder="Ej. Juan Pérez">
+                </div>
+
+                <div class="input-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" name="correo" required placeholder="ejemplo@correo.com">
+                </div>
+
+                <div class="input-group">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="date" name="fechaNacimiento" required style="color-scheme: dark;">
+                </div>
+
                 <div class="input-group">
                     <label>Crea una Contraseña</label>
-                    <input type="password" name="nuevaPassword" required placeholder="Mínimo 6 caracteres">
+                    <input type="password" name="password" required placeholder="Mínimo 6 caracteres">
                 </div>
+
                 <button type="submit" class="btn-submit" style="background: white; color: black;">Registrarme</button>
             </form>
         </div>

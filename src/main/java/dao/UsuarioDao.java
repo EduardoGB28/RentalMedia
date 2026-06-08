@@ -6,41 +6,57 @@ import org.bson.Document;
 import com.mongodb.client.model.Filters;
 import models.Usuario;
 import config.MongoConfig;
+import org.mindrot.jbcrypt.BCrypt; 
 
-public class UsuarioDAO
-{
+public class UsuarioDAO {
     private MongoCollection<Document> collection;
-    public UsuarioDAO(){
-    MongoDatabase database=MongoConfig.getDatabase();
-    this.collection=database.getCollection("Users");
+
+    public UsuarioDAO() {
+        MongoDatabase database = MongoConfig.getDatabase();
+        this.collection = database.getCollection("Users");
     }
-    public Usuario auth(String username, String password){
-        Document doc=collection.find(Filters.and(Filters.eq("username",username),Filters.eq("password",password))).first();
-   if(doc != null){
-       Usuario user=new Usuario();
-       user.setUsername(doc.getString("username"));
-       user.setRole(doc.getString("role"));
-       return user;
-   }
-   return null;
+    public Usuario auth(String username, String password) {
+        try {
+            Document doc = collection.find(Filters.eq("username", username)).first();
+            if (doc != null) {
+                String hashGuardado = doc.getString("password");
+                if (BCrypt.checkpw(password, hashGuardado)) {
+                    Usuario user = new Usuario();
+                    user.setUsername(doc.getString("username"));
+                    user.setRole(doc.getString("role"));
+                    user.setCorreo(doc.getString("correo"));
+                    user.setNombreCompleto(doc.getString("nombreCompleto"));
+                    user.setFechaNacimiento(doc.getString("fechaNacimiento"));
+                    Number tokensNum = doc.get("tokens", Number.class);
+                    user.setTokens(tokensNum != null ? tokensNum.intValue() : 0);
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error al autenticar: " + e.getMessage());
+        }
+        return null;
     }
-    public boolean UsuCreate(String username, String password)
-    {
-     try 
-     {
-         org.bson.Document usuarioExistente=collection.find(com.mongodb.client.model.Filters.eq("username",username)).first();
-         if (usuarioExistente !=null){
-             return false;
-         }
-         org.bson.Document nuevoUsuario=new org.bson.Document("username",username)
-                 .append("password", password)
-                 .append("role","user");
-         collection.insertOne(nuevoUsuario);
-         return true;
-     }
-     catch (Exception e){
-         System.out.println("Error al crear la cuenta"+e.getMessage());
-         return false;
-     }
+    public boolean UsuCreate(String username, String password, String correo, String nombreCompleto, String fechaNacimiento) {
+        try {
+
+            Document usuarioExistente = collection.find(Filters.eq("username", username)).first();
+            if (usuarioExistente != null) {
+                return false;
+            }
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
+            Document nuevoUsuario = new Document("username", username)
+                    .append("password", hashedPassword)
+                    .append("correo", correo)
+                    .append("nombreCompleto", nombreCompleto)
+                    .append("fechaNacimiento", fechaNacimiento)
+                    .append("role", "user")
+                    .append("tokens", 0);
+            collection.insertOne(nuevoUsuario);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al crear la cuenta: " + e.getMessage());
+            return false;
+        }
     }
 }

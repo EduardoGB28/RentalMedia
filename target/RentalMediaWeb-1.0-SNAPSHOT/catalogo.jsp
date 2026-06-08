@@ -215,9 +215,10 @@
         <div class="sidebar-content">
             <h3><i class="fa-solid fa-user-gear"></i> Mi Cuenta</h3>
             <ul>
-                <li><a href="#"><i class="fa-solid fa-id-badge"></i> Mi Perfil</a></li>
-                <li><a href="#"><i class="fa-solid fa-coins"></i> Mi Billetera</a></li>
-                <li><a href="#"><i class="fa-solid fa-box-open"></i> Mis Rentas</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-id-badge"></i> Mi Perfil</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-coins"></i> Mi Billetera</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-box-open"></i> Mis Rentas Activas</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
             </ul>
             <hr>
             <h3><i class="fa-solid fa-circle-info"></i> Ayuda</h3>

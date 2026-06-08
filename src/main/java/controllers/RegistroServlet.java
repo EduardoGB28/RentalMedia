@@ -13,20 +13,20 @@ public class RegistroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nuevoUser = request.getParameter("nuevoUsername");
-        String nuevaPass = request.getParameter("nuevaPassword");
-        if (nuevoUser != null && nuevaPass != null && !nuevoUser.trim().isEmpty() && !nuevaPass.trim().isEmpty()) {
-            UsuarioDAO dao = new UsuarioDAO();
-            boolean exito = dao.UsuCreate(nuevoUser.trim(), nuevaPass.trim());         
-            if (exito) {
-                request.setAttribute("mensajeExito", "¡Cuenta creada con éxito! Ahora puedes iniciar sesión.");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else {
-                request.setAttribute("error", "Ese nombre de usuario ya está ocupado. Elige otro.");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-            }           
+        request.setCharacterEncoding("UTF-8"); 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String correo = request.getParameter("correo");
+        String nombreCompleto = request.getParameter("nombreCompleto");
+        String fechaNacimiento = request.getParameter("fechaNacimiento");
+        dao.UsuarioDAO dao = new dao.UsuarioDAO();
+        boolean exito = dao.UsuCreate(username, password, correo, nombreCompleto, fechaNacimiento);
+        if (exito) {
+            System.out.println("¡Usuario " + username + " registrado con seguridad BCrypt y datos completos!");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         } else {
-            request.setAttribute("error", "Por favor, llena todos los campos para registrarte.");
+            System.out.println("El nombre de usuario ya existe o hubo un error.");
+            request.setAttribute("error", "El usuario ya existe. Intenta con otro.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

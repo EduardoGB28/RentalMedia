@@ -46,7 +46,7 @@
         .sidebar-content ul li a:hover { color: var(--verde-lima); padding-left: 5px; }
         .sidebar-content hr { border: none; border-top: 1px solid #eee; margin-bottom: 20px; }
 
-        /* HERO CARRUSEL CON FONDOS MODERNOS */
+
         .carousel-container { position: relative; width: 100%; height: 380px; overflow: hidden; }
         .slide {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out;
@@ -101,10 +101,10 @@
         <div class="sidebar-content">
             <h3><i class="fa-solid fa-user-gear"></i> Mi Cuenta</h3>
             <ul>
-                <li><a href="#"><i class="fa-solid fa-id-badge"></i> Mi Perfil</a></li>
-                <li><a href="#"><i class="fa-solid fa-coins"></i> Mi Billetera</a></li>
-                <li><a href="#"><i class="fa-solid fa-box-open"></i> Mis Rentas Activas</a></li>
-                <li><a href="#"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-id-badge"></i> Mi Perfil</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-coins"></i> Mi Billetera</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-box-open"></i> Mis Rentas Activas</a></li>
+                <li><a href="${pageContext.request.contextPath}/panel.jsp"><i class="fa-solid fa-clock-rotate-left"></i> Historial</a></li>
             </ul>
             <hr>
             <h3><i class="fa-solid fa-circle-info"></i> Ayuda</h3>

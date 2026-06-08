@@ -190,7 +190,7 @@
                             <c:forEach var="pedido" items="${requestScope.historialRentas}">
                                 <div class="data-card" style="display: flex; gap: 20px; align-items: center; border-left: 5px solid var(--verde-lima);">
                                     
-                                    <img src="${pageContext.request.contextPath}/QrServlet?texto=${pedido.id}" alt="QR del Pedido" style="width: 120px; height: 120px; border-radius: 8px; border: 1px solid #ddd; object-fit: cover;">
+                                    <img src="${pageContext.request.contextPath}/GenerarQR?id=${pedido.id}" alt="QR del Pedido" style="width: 120px; height: 120px; border-radius: 8px; border: 1px solid #ddd; object-fit: cover;">
                                     
                                     <div style="flex: 1;">
                                         <h4 style="color: #333; font-size: 16px; margin: 0 0 8px 0; text-transform: none;">
@@ -209,9 +209,10 @@
                                             <strong>Total pagado:</strong> $${pedido.total}
                                         </p>
                                         
-                                        <button style="background: var(--verde-oscuro); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold;">
-                                            <i class="fa-solid fa-star"></i> Escribir Reseña
-                                        </button>
+                                        <a href="${pageContext.request.contextPath}/muro.jsp?idPedido=${pedido.id}" style="text-decoration: none;">
+                                            <button type="button" style="background: var(--verde-oscuro); color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s;">
+                                                <i class="fa-solid fa-star"></i> Escribir Reseña
+                                            </button>
                                     </div>
                                 </div>
                             </c:forEach>

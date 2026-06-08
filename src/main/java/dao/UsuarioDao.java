@@ -4,6 +4,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import models.Usuario;
 import config.MongoConfig;
 import org.mindrot.jbcrypt.BCrypt; 
@@ -56,6 +57,18 @@ public class UsuarioDAO {
             return true;
         } catch (Exception e) {
             System.out.println("Error al crear la cuenta: " + e.getMessage());
+            return false;
+        }
+    }
+    public boolean sumarTokens(String username, int cantidadGanada) {
+        try {
+            collection.updateOne(
+                Filters.eq("username", username),
+                Updates.inc("tokens", cantidadGanada)
+            );
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar la billetera: " + e.getMessage());
             return false;
         }
     }

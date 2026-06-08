@@ -171,7 +171,7 @@
                     </a>
                 </c:if>
 
-                <button class="action-btn" style="margin-left: 15px;">Adquirir Tokens</button>
+                <a href="${pageContext.request.contextPath}/panel.jsp?tab=historial" class="action-btn" style="margin-left: 15px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Adquirir Tokens</a>
             </div>
             
         </div>
@@ -179,8 +179,8 @@
        <div class="bottom-bar">
             <ul class="nav-links">
                 <li><a href="${pageContext.request.contextPath}/inicio">Inicio</a></li>
-                
                 <li><a href="${pageContext.request.contextPath}/catalogo">Ver Catálogo</a></li>
+                <li><a href="${pageContext.request.contextPath}/muro.jsp"><i class="fa-solid fa-comments"></i> Muro de la Comunidad</a></li>
                 </ul>
         </div>
     </header>

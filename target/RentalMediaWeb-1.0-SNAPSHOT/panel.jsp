@@ -14,6 +14,21 @@
     dao.VentaDAO ventaDAO = new dao.VentaDAO();
     java.util.List<models.Venta> miHistorial = ventaDAO.obtenerVentasPorUsuario(user.getUsername());
     request.setAttribute("historialRentas", miHistorial);
+    java.util.List<models.Venta> activas = new java.util.ArrayList<>();
+    long cuarentaYOchoHorasMs = 48 * 60 * 60 * 1000L;
+    long tiempoActual = System.currentTimeMillis();
+    
+    if (miHistorial != null) {
+        for (models.Venta v : miHistorial) {
+            if (v.getFechaVenta() != null && v.getTotal() == 0.0) {
+                long diferencia = tiempoActual - v.getFechaVenta().getTime();
+                if (diferencia < cuarentaYOchoHorasMs) {
+                    activas.add(v);
+                }
+            }
+        }
+    }
+    request.setAttribute("rentasActivas", activas);
 %>
 <!DOCTYPE html>
 <html>
@@ -97,13 +112,11 @@
     </style>
 </head>
 <body>
-
     <header>
         <div class="logo">RENTAL MEDIA</div>
         <a href="${pageContext.request.contextPath}/catalogo" class="btn-volver"><i class="fa-solid fa-arrow-left"></i> Volver al Catálogo</a>
     </header>
-    <div class="dashboard-container">
-        
+    <div class="dashboard-container">     
         <div class="dash-sidebar">
             <div style="text-align: center; margin-bottom: 40px;">
                 <div style="width: 80px; height: 80px; background: var(--verde-lima); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; color: white; margin: 0 auto 15px auto;">
@@ -112,7 +125,6 @@
                 <h3 style="color: white; margin: 0; font-size: 1.2em;">@${sessionScope.usuarioLogueado.username}</h3>
                 <span style="color: #74C000; font-size: 0.85em; font-weight: bold;">CUENTA ACTIVA</span>
             </div>
-
             <h3>Mi Cuenta</h3>
             <ul>
                 <li class="tab-btn active" onclick="cambiarSeccion('sec-perfil', this)"><i class="fa-solid fa-id-badge"></i> Mi Perfil</li>
@@ -127,13 +139,11 @@
                 <li class="tab-btn" onclick="cambiarSeccion('sec-reglas', this)"><i class="fa-solid fa-file-contract"></i> Reglas</li>
             </ul>
         </div>
-
         <div class="dash-content">
             
             <div id="sec-perfil" class="seccion-vista active">
                 <h2 class="titulo-seccion">Información Personal</h2>
-                <p class="subtitulo">Aquí puedes ver los datos con los que te registraste en nuestra plataforma.</p>
-                
+                <p class="subtitulo">Aquí puedes ver los datos con los que te registraste en nuestra plataforma.</p>               
                 <div class="data-grid">
                     <div class="data-card">
                         <h4>Nombre Completo</h4>
@@ -153,11 +163,9 @@
                     </div>
                 </div>
             </div>
-
             <div id="sec-billetera" class="seccion-vista">
                 <h2 class="titulo-seccion">Mi Billetera</h2>
-                <p class="subtitulo">Tus tokens acumulados para canjear por rentas gratis.</p>
-                
+                <p class="subtitulo">Tus tokens acumulados para canjear por rentas gratis.</p>                
                 <div class="wallet-card">
                     <i class="fa-solid fa-coins" style="font-size: 40px; margin-bottom: 15px;"></i>
                     <h1>${not empty sessionScope.usuarioLogueado.tokens ? sessionScope.usuarioLogueado.tokens : 0}</h1>
@@ -169,16 +177,44 @@
                     </button>
                 </div>
             </div>
-
             <div id="sec-rentas" class="seccion-vista">
                 <h2 class="titulo-seccion">Mis Rentas Activas</h2>
-                <div style="text-align: center; padding: 60px 0; color: #ccc;">
-                    <i class="fa-solid fa-box-open" style="font-size: 60px; margin-bottom: 20px;"></i>
-                    <h3 style="color: #888;">No tienes rentas en curso</h3>
-                    <p style="font-size: 14px;">Explora el catálogo y usa tus tokens para rentar videojuegos y películas.</p>
-                </div>
+                <p class="subtitulo">Tus productos rentados mediante tokens que se encuentran vigentes en este momento.</p>                <c:choose>
+                    <c:when test="${not empty requestScope.rentasActivas}">
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            
+                            <c:forEach var="renta" items="${requestScope.rentasActivas}">
+                                <div class="data-card" style="display: flex; gap: 20px; align-items: center; border-left: 5px solid #2ecc71; background: #f4fff6;">
+                                    
+                                    <div style="font-size: 30px; color: #2ecc71; padding-left: 10px;">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </div>                               
+                                    <div style="flex: 1;">
+                                        <h4 style="color: #222; font-size: 18px; margin: 0 0 5px 0; text-transform: none;">
+                                            <c:forEach var="prod" items="${renta.nombresProductos}" varStatus="loop">
+                                                ${prod}<c:if test="${!loop.last}">, </c:if>
+                                            </c:forEach>
+                                        </h4>
+                                        <p style="font-size: 13px; color: #666; margin: 0 0 5px 0;">
+                                            <strong>Rentado el:</strong> ${renta.fechaVenta}
+                                        </p>
+                                        <span style="display: inline-block; background: #2ecc71; color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold;">
+                                            <i class="fa-solid fa-circle-check"></i> RENTA ACTIVA (48H VIGENTE)
+                                        </span>
+                                    </div>                  
+                                </div>
+                            </c:forEach>                           
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div style="text-align: center; padding: 60px 0; color: #ccc;">
+                            <i class="fa-solid fa-box-open" style="font-size: 60px; margin-bottom: 20px;"></i>
+                            <h3 style="color: #888;">No tienes rentas en curso</h3>
+                            <p style="font-size: 14px;">Aquí aparecerán únicamente los videojuegos o películas que canjees usando tu saldo de tokens.</p>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
-
             <div id="sec-historial" class="seccion-vista">
                 <h2 class="titulo-seccion">Historial de Compras</h2>
                 <p class="subtitulo">Tus códigos QR y detalles de tus pedidos.</p>
@@ -244,9 +280,7 @@
             </div>
             <div id="sec-reglas" class="seccion-vista">
                 <h2 class="titulo-seccion">Reglas del Sistema</h2>
-                <div style="background: #fff3cd; color: #856404; padding: 20px; border-radius: 8px; border-left: 5px solid #ffeeba; margin-bottom: 20px;">
-                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>Importante:</strong> El abuso del sistema de reseñas resultará en el reseteo de tu billetera de tokens.
-                </div>
+                
                 <ul style="color: #555; line-height: 1.8; padding-left: 20px; font-size: 1.1em;">
                     <li><strong>Tokens por Reseñas:</strong> Obtén tokens al publicar reseñas verificadas de los productos rentados.</li>
                     <li><strong>Duración:</strong> Las rentas digitales tienen una duración estricta de 48 horas tras el canje.</li>

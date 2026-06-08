@@ -10,6 +10,7 @@ com\mycompany\rentalmediaweb\JakartaRestConfiguration.class
 dao\UsuarioDAO.class
 dao\ResenaDAO.class
 dao\VentaDAO.class
+controllers\SistemaTokens.class
 controllers\CheckoutServlet.class
 models\Resena.class
 models\Usuario.class

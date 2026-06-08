@@ -72,4 +72,16 @@ public class UsuarioDAO {
             return false;
         }
     }
+    public boolean restarTokens(String username, int cantidadRestar) {
+        try {
+            collection.updateOne(
+                Filters.eq("username", username),
+                Updates.inc("tokens", -cantidadRestar)
+            );
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al restar tokens: " + e.getMessage());
+            return false;
+        }
+    }
 }

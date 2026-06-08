@@ -292,6 +292,7 @@
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Anime">Anime</a></li>
                 <li><a href="${pageContext.request.contextPath}/catalogo?categoria=Serie">Series</a></li>
                 <li><a href="${pageContext.request.contextPath}/muro.jsp"><i class="fa-solid fa-comments"></i> Muro de la Comunidad</a></li>
+                <li><a href="${pageContext.request.contextPath}/catalogoTokens.jsp" style="color: #f1c40f;"><i class="fa-solid fa-coins"></i> Renta por Tokens</a></li>
             </ul>
         </div>
     </header>

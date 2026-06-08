@@ -24,49 +24,31 @@ public class ProductoDAO {
         for (Document doc : collection.find()) {
             try {
                 Producto p = new Producto();
-                
-                // 1. Sacamos el ID
                 if (doc.getObjectId("_id") != null) {
                     p.setId(doc.getObjectId("_id").toHexString());
-                }
-                
+                }              
                 p.setName(doc.getString("name"));
-                
-                // ==========================================
-                // 2. CATEGORÍA: Buscamos la nueva o la vieja
-                // ==========================================
                 String cat = doc.getString("categoria");
                 if (cat == null) {
-                    cat = doc.getString("category"); // Fallback
+                    cat = doc.getString("category"); 
                 }
                 p.setCategory(cat); 
-                
-                // ==========================================
-                // 3. IMAGEN: Buscamos la nueva o la vieja
-                // ==========================================
                 String img = doc.getString("image");
                 if (img == null) {
-                    img = doc.getString("imageUrl"); // Fallback
+                    img = doc.getString("imageUrl");
                 }
-                p.setImageUrl(img);
-                
-                // 4. PRECIO (A prueba de balas)
+                p.setImageUrl(img);   
                 if (doc.get("price") != null) { 
                     p.setPrice(Double.parseDouble(doc.get("price").toString())); 
                 }
-                
-                // 5. STOCK (A prueba de balas)
                 if (doc.get("stock") != null) { 
                     p.setStock(Integer.parseInt(doc.get("stock").toString())); 
                 }
-                
                 lista.add(p);
-                
             } catch (Exception e) {
                 System.out.println("Error leyendo un producto de Mongo: " + e.getMessage());
             }
-        } 
-        
+        }         
         return lista; 
     }
       public List<Producto> obtenerporcate(String categoria)
